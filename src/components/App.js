@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-
+import { Routes, Route } from 'react-router-dom';
 import ImagePopup from "./ImagePopup";
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import api from '../utils/Api';
@@ -10,6 +10,8 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import DeleteCardPopup from './DeleteCardPopup';
+import Login from './Login'
+import Register from './Register';
 
 function App() {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -168,15 +170,20 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
         <div className="page">
             <Header />
-            <Main cards={cards} onEditProfile={handleEditProfileClick}
-                onAddPlace={handleAddPlaceClick}
-                onEditAvatar={handleEditAvatarClick}
-                onCardClick={handleCardClick}
-                onCardLike={handleCardLike}
-                setCards={setCards} 
-                onCardDelete={handleCardDelete} 
-                onDeletePopupClick={handleDeletePopupClick} />
+            <Routes>
+                <Route path="/" element={<Main cards={cards} onEditProfile={handleEditProfileClick}
+                    onAddPlace={handleAddPlaceClick}
+                    onEditAvatar={handleEditAvatarClick}
+                    onCardClick={handleCardClick}
+                    onCardLike={handleCardLike}
+                    setCards={setCards} 
+                    onCardDelete={handleCardDelete} 
+                    onDeletePopupClick={handleDeletePopupClick} />} />
+                <Route path="/sign-in" element={<Login />} />
+                <Route path="/sign-up" element={<Register />} />
+            </Routes>
             <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+            
             <Footer />
             
             <EditProfilePopup isEditProfilePopupOpen={isEditProfilePopupOpen} closeAllPopups={closeAllPopups} onUpdateUser={handleUpdateUser} />

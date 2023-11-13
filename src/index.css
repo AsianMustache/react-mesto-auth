@@ -6,6 +6,15 @@
 @import url(../src/blocks/header/__signin/header__signin.css);
 @import url(../src/blocks/header/__logo/header__logo.css);
 @import url(../src/blocks/header/__logo-image/header__logo-image.css);
+@import url(../src/blocks/register/__title/register__title.css);
+@import url(../src/blocks/register/__label/register__label.css);
+@import url(../src/blocks/register/__input-email/register__input-email.css);
+@import url(../src/blocks/register/__input-password/register__input-password.css);
+@import url(../src/blocks/register/__line/register__line.css);
+@import url(../src/blocks/register/__button-signup/register__button-signup.css);
+@import url(../src/blocks/register/__button-text/register__button-text.css);
+@import url(../src/blocks/register/__text/register__text.css);
+@import url(../src/blocks/register/__login/register__login.css);
 @import url(../src/blocks/profile/profile.css);
 @import url(../src/blocks/profile/__avatar/profile__avatar.css);
 @import url(../src/blocks/profile/__info/profile__info.css);

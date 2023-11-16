@@ -1,20 +1,41 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-function Register() {
+function Register({ onRegister }) {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (email && password) {
+            return;
+        }
+        onRegister(email, password)
+            .then(() => {
+                navigate.push('/sign-in');
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+
     return(
         <div className="register">
             <h2 className="register__title">Регистрация</h2>
-            <label className="register__label">
-            <input type="text" id="email" name="email" placeholder="Email" className="register__input-email" minLength="2" maxLength="40" required />
-            <div className="register__line"></div>
-            </label>
-            <label className="register__label">
-                <input type="password" id="password"  name="password" placeholder="Пароль" className="register__input-password" minLength="2" maxLength="200" required />
+            <form onSubmit={handleSubmit}>
+                <label className="register__label">
+                <input type="text" id="email" name="email" placeholder="Email" className="register__input-email" value={email} onChange={e => setEmail(e.target.value)} minLength="2" maxLength="40" required />
                 <div className="register__line"></div>
-            </label>
-            <button className="register__button-signup"><Link to="/sign-up" className="register__button-text">Зарегистрироваться</Link></button>
-            <p className="register__text">Уже зарегистрированы? <Link to="/sign-in" className="register__login">Войти</Link></p>
+                </label>
+                <label className="register__label">
+                    <input type="password" id="password"  name="password" placeholder="Пароль" className="register__input-password" value={password} onChange={e => setPassword(e.target.value)} minLength="2" maxLength="200" required />
+                    <div className="register__line"></div>
+                </label>
+                <button className="register__button-signup"><Link to="/sign-up" className="register__button-text">Зарегистрироваться</Link></button>
+                <p className="register__text">Уже зарегистрированы? <Link to="/sign-in" className="register__login">Войти</Link></p>
+            </form>
             
         </div>
     )

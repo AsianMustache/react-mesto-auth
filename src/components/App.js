@@ -12,6 +12,7 @@ import AddPlacePopup from './AddPlacePopup';
 import DeleteCardPopup from './DeleteCardPopup';
 import Login from './Login'
 import Register from './Register';
+import ProtectedRoute from './ProtectedRoute';
 
 function App() {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -36,7 +37,8 @@ function App() {
         setIsEditAvatarPopupOpen(true);
     }
 
-    
+    const [loggedIn, setLoggedIn] = useState(false); 
+
     function handleCardClick(card) {
         setSelectedCard(card);
     }
@@ -171,14 +173,18 @@ function App() {
         <div className="page">
             <Header />
             <Routes>
-                <Route path="/" element={<Main cards={cards} onEditProfile={handleEditProfileClick}
-                    onAddPlace={handleAddPlaceClick}
-                    onEditAvatar={handleEditAvatarClick}
-                    onCardClick={handleCardClick}
-                    onCardLike={handleCardLike}
-                    setCards={setCards} 
-                    onCardDelete={handleCardDelete} 
-                    onDeletePopupClick={handleDeletePopupClick} />} />
+                <Route path="/" element={
+                    <ProtectedRoute 
+                        loggedIn={loggedIn}
+                        component={Main} cards={cards} onEditProfile={handleEditProfileClick}
+                        onAddPlace={handleAddPlaceClick}
+                        onEditAvatar={handleEditAvatarClick}
+                        onCardClick={handleCardClick}
+                        onCardLike={handleCardLike}
+                        setCards={setCards} 
+                        onCardDelete={handleCardDelete} 
+                        onDeletePopupClick={handleDeletePopupClick} />
+                    } />
                 <Route path="/sign-in" element={<Login />} />
                 <Route path="/sign-up" element={<Register />} />
             </Routes>

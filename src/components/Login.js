@@ -1,19 +1,24 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-function Login({ onLogin }) {
+function Login({ onLogin, setLoggedIn }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
-        e.preventDeafault();
-        if (email && password) {
+        e.preventDefault();
+        if (!email || !password) {
             return;
         }
         onLogin(email, password)
-            .then(() => {
-                navigate.push('/')
+            .then((res) => {
+                if (!res) throw new Error("Неправильное имя пользователя или пароль");
+                if (res.jwt) {
+                    setLoggedIn(true);
+                    localStorage.setItem('jwt', res.jwt);
+                    navigate('/');
+                }
             })
             .catch(err => console.log(err));
     }
@@ -31,7 +36,7 @@ function Login({ onLogin }) {
                     <input type="password" id="password"  name="password" placeholder="Пароль" className="login__input-password" value={password} onChange={e => setPassword(e.target.value)} minLength="2" maxLength="200" required />
                     <div className="login__line"></div>
                 </label>
-                <button className="login__button-signin"><Link to="/sign-in" className="login__button-text">Войти</Link></button>
+                <button className="login__button-signin">Войти</button>
             </form>
         </div>
     )

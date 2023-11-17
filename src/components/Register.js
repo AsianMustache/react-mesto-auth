@@ -8,12 +8,12 @@ function Register({ onRegister }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (email && password) {
+        if (!email || !password) {
             return;
         }
         onRegister(email, password)
             .then(() => {
-                navigate.push('/sign-in');
+                navigate('/sign-in');
             })
             .catch((err) => {
                 console.log(err)
@@ -33,7 +33,7 @@ function Register({ onRegister }) {
                     <input type="password" id="password"  name="password" placeholder="Пароль" className="register__input-password" value={password} onChange={e => setPassword(e.target.value)} minLength="2" maxLength="200" required />
                     <div className="register__line"></div>
                 </label>
-                <button className="register__button-signup"><Link to="/sign-up" className="register__button-text">Зарегистрироваться</Link></button>
+                <button className="register__button-signup">Зарегистрироваться</button>
                 <p className="register__text">Уже зарегистрированы? <Link to="/sign-in" className="register__login">Войти</Link></p>
             </form>
             

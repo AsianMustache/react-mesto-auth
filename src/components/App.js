@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import ImagePopup from "./ImagePopup";
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import api from '../utils/Api';
@@ -13,6 +13,8 @@ import DeleteCardPopup from './DeleteCardPopup';
 import Login from './Login'
 import Register from './Register';
 import ProtectedRoute from './ProtectedRoute';
+import * as apiAuthorize from '../utils/apiAuthorize';
+import { setToken } from '../utils/token';
 
 function App() {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -24,6 +26,8 @@ function App() {
     const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
     const [cardToDelete, setCardToDelete] = useState(null);
     const [isDeleting, setIsDeleting] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(false);
+    const navigate = useNavigate();
 
     const handleEditProfileClick = () => {
         setIsEditProfilePopupOpen(true);
@@ -37,7 +41,26 @@ function App() {
         setIsEditAvatarPopupOpen(true);
     }
 
-    const [loggedIn, setLoggedIn] = useState(false); 
+    const handleLogin = (email, password) => {
+        return apiAuthorize.authorize(email, password)
+            .then((data) => {
+                if (data.token) {
+                    setToken(data.token);
+                    setLoggedIn(true);
+                    navigate('/');
+                }
+            });
+    };
+
+    const handleRegister = (email, password) => {
+        return apiAuthorize.register(email, password)
+            .then((data) => {
+                if (data) {
+                    navigate('/sign-in');
+                }
+            });
+    };
+
 
     function handleCardClick(card) {
         setSelectedCard(card);
@@ -168,6 +191,24 @@ function App() {
             });
         }, []);
 
+    useEffect(() => {
+        const token = localStorage.getItem('jwt');
+        if (token) {
+            apiAuthorize.checkToken(token)
+                .then((res) => {
+                    if (res) {
+                        setLoggedIn(true);
+                    }
+                })
+                .catch((err) => console.log(err));
+        }
+    }, [loggedIn]);
+
+    useEffect (() => {
+        if (loggedIn) navigate ('/');
+    }, [loggedIn]);
+
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
         <div className="page">
@@ -185,8 +226,8 @@ function App() {
                         onCardDelete={handleCardDelete} 
                         onDeletePopupClick={handleDeletePopupClick} />
                     } />
-                <Route path="/sign-in" element={<Login />} />
-                <Route path="/sign-up" element={<Register />} />
+                <Route path="/sign-in" element={<Login onLogin={handleLogin}/>} />
+                <Route path="/sign-up" element={<Register onRegister={handleRegister}/>} />
             </Routes>
             <ImagePopup card={selectedCard} onClose={closeAllPopups} />
             

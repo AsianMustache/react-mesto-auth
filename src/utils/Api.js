@@ -83,42 +83,6 @@ class Api {
             headers: this._headers
         }
     )}
-
-    register(email, password) {
-        return this._sendRequest(`https://auth.nomoreparties.co/signup`, {
-            method: "POST",
-            headers: {
-                'Content-Type': "application/json"
-            },
-            body: JSON.stringify({
-                password: password,
-                email: email
-            })
-        });
-    }
-
-    authorize(email, password) {
-        return this._sendRequest(`https://auth.nomoreparties.co/signin`, {
-            method: "POST",
-            headers: {
-                'Content-Type': "application/json"
-            },
-            body: JSON.stringify({
-                password: password,
-                email: email
-            })
-        });
-    }
-
-    checkToken(token) {
-        return this._sendRequest(`https://auth.nomoreparties.co/users/me`, {
-            method: "GET",
-            headers: {
-                ...this._headers,
-                'Authorization': `Bearer ${token}`
-            }
-        });
-    }
 }
 
 const api = new Api({

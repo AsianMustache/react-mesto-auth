@@ -49,7 +49,8 @@ function App() {
                     setLoggedIn(true);
                     navigate('/');
                 }
-            });
+            })
+            .catch(err => console.log(err));
     };
 
     const handleRegister = (email, password) => {

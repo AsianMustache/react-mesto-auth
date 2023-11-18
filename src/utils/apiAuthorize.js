@@ -2,6 +2,12 @@ import { setToken } from "./token";
 
 export const BASE_URL = 'https://auth.nomoreparties.co';
 
+function sendRequest (res) {
+    if (res.ok) {
+        return res.json();
+    }
+    throw new Error('Что-то пошло не так');
+}
 
 export const register = (email, password) => {
         return fetch(`${BASE_URL}/signup`, {
@@ -13,7 +19,8 @@ export const register = (email, password) => {
                 password: password,
                 email: email
             })
-        });
+        })
+        .then(sendRequest)
 }
 
 export const authorize = (email, password) => {
@@ -27,6 +34,7 @@ export const authorize = (email, password) => {
                 email: email
             })
         })
+        .then(sendRequest)
 }
 
 export const checkToken = (token) => {
@@ -36,6 +44,7 @@ export const checkToken = (token) => {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             }
-        });
+        })
+        .then(sendRequest)
 }
 

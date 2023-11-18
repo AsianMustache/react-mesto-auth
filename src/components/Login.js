@@ -18,18 +18,16 @@ function Login({ onLogin, setLoggedIn }) {
         
         onLogin(email, password)
         .then(resetForm)
-        .then((res) => {
-            console.log('Результат onLogin:', res);
-                if (!res) throw new Error("Неправильное имя пользователя или пароль");
-                if (res.token) {
-                    setLoggedIn(true);
-                    localStorage.setItem('token', res.token);
-                    navigate('/');
-                }
-            })
-            .catch(err => console.log(err));
+        // .then((res) => {
+        //         if (!res) throw new Error("Неправильное имя пользователя или пароль");
+        //         if (res.token) {
+        //             setLoggedIn(true);
+        //             localStorage.setItem('token', res.token);
+        //             navigate('/');
+        //         }
+        //     })
+        //     .catch(err => console.log(err));
     }
-    console.log(onLogin(email, password))
     
     return(
         <div className="login">

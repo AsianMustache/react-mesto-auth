@@ -1,3 +1,5 @@
+import { setToken } from "./token";
+
 export const BASE_URL = 'https://auth.nomoreparties.co';
 
 
@@ -24,7 +26,7 @@ export const authorize = (email, password) => {
                 password: password,
                 email: email
             })
-        });
+        })
 }
 
 export const checkToken = (token) => {

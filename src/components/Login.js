@@ -1,29 +1,36 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Login({ onLogin, setLoggedIn }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const resetForm = () => {
+        setEmail('');
+        setPassword('');
+      };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!email || !password) {
             return;
         }
+        
         onLogin(email, password)
-            .then((res) => {
+        .then(resetForm)
+        .then((res) => {
+            console.log('Результат onLogin:', res);
                 if (!res) throw new Error("Неправильное имя пользователя или пароль");
-                if (res.jwt) {
+                if (res.token) {
                     setLoggedIn(true);
-                    localStorage.setItem('jwt', res.jwt);
+                    localStorage.setItem('token', res.token);
                     navigate('/');
                 }
             })
             .catch(err => console.log(err));
     }
-
-
+    console.log(onLogin(email, password))
+    
     return(
         <div className="login">
             <h2 className="login__title">Вход</h2>

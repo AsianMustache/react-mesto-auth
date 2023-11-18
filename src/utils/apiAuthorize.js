@@ -1,5 +1,3 @@
-import { setToken } from "./token";
-
 export const BASE_URL = 'https://auth.nomoreparties.co';
 
 
@@ -33,7 +31,7 @@ export const checkToken = (token) => {
         return fetch(`${BASE_URL}/users/me`, {
             method: "GET",
             headers: {
-                ...this._headers,
+                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             }
         });

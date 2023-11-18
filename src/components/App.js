@@ -192,7 +192,7 @@ function App() {
         }, []);
 
     useEffect(() => {
-        const token = localStorage.getItem('jwt');
+        const token = localStorage.getItem('token');
         if (token) {
             apiAuthorize.checkToken(token)
                 .then((res) => {

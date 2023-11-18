@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
-function Login({ onLogin, setLoggedIn }) {
+function Login({ onLogin }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const navigate = useNavigate();
     const resetForm = () => {
         setEmail('');
         setPassword('');
@@ -18,15 +16,6 @@ function Login({ onLogin, setLoggedIn }) {
         
         onLogin(email, password)
         .then(resetForm)
-        // .then((res) => {
-        //         if (!res) throw new Error("Неправильное имя пользователя или пароль");
-        //         if (res.token) {
-        //             setLoggedIn(true);
-        //             localStorage.setItem('token', res.token);
-        //             navigate('/');
-        //         }
-        //     })
-        //     .catch(err => console.log(err));
     }
     
     return(

@@ -62,6 +62,12 @@ function App() {
             });
     };
 
+    const onSignOut = () => {
+        localStorage.removeItem('token');
+        setLoggedIn(false);
+        navigate('/sign-in');
+    };
+
 
     function handleCardClick(card) {
         setSelectedCard(card);
@@ -213,7 +219,7 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
         <div className="page">
-            <Header />
+            <Header onSignOut={onSignOut} />
             <Routes>
                 <Route path="/" element={
                     <ProtectedRoute 
@@ -225,7 +231,9 @@ function App() {
                         onCardLike={handleCardLike}
                         setCards={setCards} 
                         onCardDelete={handleCardDelete} 
-                        onDeletePopupClick={handleDeletePopupClick} />
+                        onDeletePopupClick={handleDeletePopupClick}
+                        onSignOut={onSignOut}
+                        />
                     } />
                 <Route path="/sign-in" element={<Login onLogin={handleLogin}/>} />
                 <Route path="/sign-up" element={<Register onRegister={handleRegister}/>} />

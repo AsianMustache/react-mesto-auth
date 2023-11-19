@@ -28,6 +28,7 @@ function App() {
     const [isDeleting, setIsDeleting] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
     const navigate = useNavigate();
+    const [userEmail, setUserEmail] = useState('');
 
     const handleEditProfileClick = () => {
         setIsEditProfilePopupOpen(true);
@@ -47,13 +48,15 @@ function App() {
             if (data.token) {
                 setToken(data.token);
                 setLoggedIn(true);
+                console.log(email);
+                setUserEmail(email);
                 navigate('/');
             }
         } catch (err) {
             return console.log(err);
         }
     };
-
+    console.log(handleLogin)
     const handleRegister = (email, password) => {
         return apiAuthorize.register(email, password)
             .then((data) => {
@@ -220,7 +223,7 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
         <div className="page">
-            <Header onSignOut={onSignOut} />
+            <Header onSignOut={onSignOut} loggedIn={loggedIn} userEmail={userEmail} />
             <Routes>
                 <Route path="/" element={
                     <ProtectedRoute 

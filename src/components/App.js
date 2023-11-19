@@ -41,16 +41,17 @@ function App() {
         setIsEditAvatarPopupOpen(true);
     }
 
-    const handleLogin = (email, password) => {
-        return apiAuthorize.authorize(email, password)
-            .then((data) => {
-                if (data.token) {
-                    setToken(data.token);
-                    setLoggedIn(true);
-                    navigate('/');
-                }
-            })
-            .catch(err => console.log(err));
+    const handleLogin = async (email, password) => {
+        try {
+            const data = await apiAuthorize.authorize(email, password);
+            if (data.token) {
+                setToken(data.token);
+                setLoggedIn(true);
+                navigate('/');
+            }
+        } catch (err) {
+            return console.log(err);
+        }
     };
 
     const handleRegister = (email, password) => {

@@ -9,4 +9,5 @@
     text-decoration: none;
     display: flex;
     justify-content: center;
+    height: 0;
 }

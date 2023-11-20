@@ -1,14 +1,12 @@
-.header__signin {
+.header__login {
     color: #FFF;
     text-align: right;
     font-family: Inter;
     font-size: 18px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 500;
     line-height: 22px;
-    text-decoration: none;
-    display: flex;
-    justify-content: center;
+    /* display: flex; */
     height: 0;
-    margin: 0px 0px 46px 624px;
+    margin: 26px 0px 46px 0;
 }

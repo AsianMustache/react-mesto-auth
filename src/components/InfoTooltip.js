@@ -1,14 +1,28 @@
 import React from "react";
+import PopupWithForm from "./PopupWithForm";
 
-function InfoToolTip({ isOpen, onClose, message }) {
+function InfoTooltip({ isInfoTooltipOpen, closeAllPopups, type, notification }) {
     return(
-        <div className={`popup ${isOpen && 'popup_opened'}`}>
-            <div className="popup__content">
-                <button className="popup__close" onClick={onClose}></button>
-                <p className="popup__text">{message}</p>
-            </div>
-        </div>
+        // <>
+        //     {type === 'success' && (
+        //         <PopupWithForm name="infotooltip-success" isOpen={isInfoTooltipOpen} onClose={closeAllPopups} showButton={false}>
+        //         <button type="button" className="popup-container__close-button popup-close" onClick={closeAllPopups}></button>
+        //         <h2 className="popup-container__title-delete">Success</h2>
+        //         </PopupWithForm>
+        //     )}
+        //     {type === 'error' && (
+        //         <PopupWithForm name="infotooltip-error" isOpen={isInfoTooltipOpen} onClose={closeAllPopups} showButton={false}>
+        //         <button type="button" className="popup-container__close-button popup-close" onClick={closeAllPopups}></button>
+        //         <h2 className="popup-container__title-delete">Error</h2>
+        //         </PopupWithForm>
+        //     )}
+        // </>
+        <PopupWithForm name="infotooltip-success" isOpen={isInfoTooltipOpen} onClose={closeAllPopups} showButton={false}>
+        <button type="button" className="popup-container__close-button popup-close" onClick={closeAllPopups}></button>
+        <div className={`popup__infotooltip_image-type_${notification.type}`} ></div>
+        <h2 className="popup-container__title-infotooltip">{notification.text}</h2>
+        </PopupWithForm>
    );
 }
 
-export default InfoToolTip;
+export default InfoTooltip;

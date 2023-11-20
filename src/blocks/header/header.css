@@ -2,9 +2,11 @@
     max-width: 880px;
     margin: 42px 200px 0px;
     border-bottom: solid 1px rgba(84, 84, 84, 0.7);
-    display: flex;
-    justify-content: space-between;
+    /* display: flex;
+    justify-content: space-between; */
     max-height: 74px;
+    display: grid;
+    grid-template-columns: max-content auto max-content;
 }
 
 @media (max-width: 750px) {

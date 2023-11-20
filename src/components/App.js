@@ -15,6 +15,7 @@ import Register from './Register';
 import ProtectedRoute from './ProtectedRoute';
 import * as apiAuthorize from '../utils/apiAuthorize';
 import { setToken } from '../utils/token';
+import InfoTooltip from './InfoTooltip';
 
 function App() {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -26,9 +27,12 @@ function App() {
     const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
     const [cardToDelete, setCardToDelete] = useState(null);
     const [isDeleting, setIsDeleting] = useState(false);
-    const [loggedIn, setLoggedIn] = useState(false);
+    const storageLoggedIn = JSON.parse(localStorage.getItem('loggedIn')) ?? false;
+    const [loggedIn, setLoggedIn] = useState(storageLoggedIn);
     const navigate = useNavigate();
     const [userEmail, setUserEmail] = useState('');
+    const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
+    const [notification, setNotification] = useState('');
 
     const handleEditProfileClick = () => {
         setIsEditProfilePopupOpen(true);
@@ -42,32 +46,48 @@ function App() {
         setIsEditAvatarPopupOpen(true);
     }
 
+
+    const openInfotooltip = ({type, text}) => {
+        setNotification({type, text})
+        setIsInfoTooltipOpen(true);
+        setTimeout(() => {
+            setIsInfoTooltipOpen(false)
+        }, 1500)
+    }
+
     const handleLogin = async (email, password) => {
         try {
             const data = await apiAuthorize.authorize(email, password);
             if (data.token) {
                 setToken(data.token);
                 setLoggedIn(true);
-                console.log(email);
                 setUserEmail(email);
+                localStorage.setItem('loggedIn', true);
+                localStorage.setItem('userEmail', email);
+                
                 navigate('/');
             }
         } catch (err) {
-            return console.log(err);
+            console.log(err);
+            openInfotooltip({ type: 'error', text: 'Что-то пошло не так! Попробуйте ещё раз.'});
         }
     };
-    console.log(handleLogin)
+
     const handleRegister = (email, password) => {
         return apiAuthorize.register(email, password)
             .then((data) => {
                 if (data) {
-                    navigate('/sign-in');
+                    openInfotooltip({ type: 'success', text: 'Вы успешно зарегистрировались!'});
+                    navigate('/sign-in', {replace: true});
                 }
-            });
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     };
 
     const onSignOut = () => {
-        localStorage.removeItem('token');
+        localStorage.clear();
         setLoggedIn(false);
         navigate('/sign-in');
     };
@@ -217,9 +237,14 @@ function App() {
 
     useEffect (() => {
         if (loggedIn) navigate ('/');
-    }, [loggedIn]);
+    }, [loggedIn, navigate]);
 
-
+    useEffect(() => {
+        const savedEmail = localStorage.getItem('userEmail');
+        if (savedEmail) {
+            setUserEmail(savedEmail);
+        }
+    }, []);
   return (
     <CurrentUserContext.Provider value={currentUser}>
         <div className="page">
@@ -253,6 +278,8 @@ function App() {
             <EditAvatarPopup isEditAvatarPopupOpen={isEditAvatarPopupOpen} closeAllPopups={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
 
             <DeleteCardPopup isDeletePopupOpen={isDeletePopupOpen} closeAllPopups={closeAllPopups} onConfirmDelete={handleConfirmDelete} card={cardToDelete} isDeleting={isDeleting} />
+
+            <InfoTooltip isInfoTooltipOpen={isInfoTooltipOpen} closeAllPopups={closeAllPopups} notification={notification} />
 
         </div>
     </CurrentUserContext.Provider>

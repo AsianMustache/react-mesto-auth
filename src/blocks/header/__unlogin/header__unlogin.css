@@ -1,5 +1,5 @@
-.header__signin {
-    color: #FFF;
+.header__unlogin {
+    color: #A9A9A9;
     text-align: right;
     font-family: Inter;
     font-size: 18px;
@@ -7,8 +7,5 @@
     font-weight: 400;
     line-height: 22px;
     text-decoration: none;
-    display: flex;
-    justify-content: center;
-    height: 0;
-    margin: 0px 0px 46px 624px;
+    margin: 26px 0 46px 24px;
 }

@@ -27,7 +27,6 @@ function App() {
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [cardToDelete, setCardToDelete] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
-  //   const storageLoggedIn = JSON.parse(localStorage.getItem("loggedIn")) ?? false;
   const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
   const [userEmail, setUserEmail] = useState("");
@@ -62,7 +61,6 @@ function App() {
         setLoggedIn(true);
         setUserEmail(email);
         localStorage.setItem("loggedIn", true);
-        // localStorage.setItem("userEmail", email);
         navigate("/");
       }
     } catch (err) {
@@ -274,12 +272,6 @@ function App() {
     if (loggedIn) navigate("/");
   }, [loggedIn, navigate]);
 
-  //   useEffect(() => {
-  //     const savedEmail = localStorage.getItem("userEmail");
-  //     if (savedEmail) {
-  //       setUserEmail(savedEmail);
-  //     }
-  //   }, []);
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">

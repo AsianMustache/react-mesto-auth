@@ -214,9 +214,6 @@ function App() {
     ) {
       window.addEventListener("keydown", handleEscClose);
       window.addEventListener("mousedown", handleOverlayClose);
-    } else {
-      window.removeEventListener("keydown", handleEscClose);
-      window.removeEventListener("mousedown", handleOverlayClose);
     }
 
     return () => {
@@ -266,7 +263,7 @@ function App() {
         .then((res) => {
           if (res) {
             setLoggedIn(true);
-            setUserEmail(res.email);
+            setUserEmail(res.data.email);
           }
         })
         .catch((err) => console.log(err));
